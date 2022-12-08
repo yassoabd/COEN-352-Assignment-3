@@ -1,5 +1,4 @@
-package coen352.ch11.graph.am;
-import coen352.ch4.list.AList;
+package coen352.a3
 
 /** Source code example for "A Practical Introduction to Data
     Structures and Algorithm Analysis, 3rd Edition (Java)" 
@@ -10,10 +9,8 @@ import coen352.ch4.list.AList;
 class Graphm implements Graph { // Graph: Adjacency matrix
   private int[][] matrix;                // The edge matrix
   private int numEdge;                   // Number of edges
-  public int[] Mark;                     // reflecting visited or not
-  public int[] Count;					// count the nubmer of visits 
-  public int[] Colors;					// color for different colors of a node
-  
+  public int[] Mark;                     // The mark array
+
   public Graphm() {}
   public Graphm(int n) {                 // Constructor
     Init(n);
@@ -21,7 +18,6 @@ class Graphm implements Graph { // Graph: Adjacency matrix
 
   public void Init(int n) {
     Mark = new int[n];
-    Count = new int[n];
     matrix = new int[n][n];
     numEdge = 0;
   }
@@ -29,32 +25,6 @@ class Graphm implements Graph { // Graph: Adjacency matrix
   public int n() { return Mark.length; } // # of vertices
 
   public int e() { return numEdge; }     // # of edges
-  
-  
-  public Integer[] getFanIn(int v) {
-	
-	 AList<Integer> fanInArray = new AList<Integer>();
-	  
-	 // needs to initalize the fanin elements with -1; 
-	 for(int i=0;i<Mark.length;i++) {
-		 if( matrix[i][v]==1) { // find one fan-in vertex; 
-			 fanInArray.append(Integer.valueOf(i));
-		 
-		 }
-	 }
-	 
-	 int size = fanInArray.length();
-	 if(size != 0) {
-	 Integer[] array =new Integer[size];
-	 for(int i=0;i<fanInArray.length();i++) {
-			 array[i] = Integer.valueOf(fanInArray.getValue(i));
-		 }
-		 return array;
-	 }
-	 else
-		 return null;
-	  
-  }
 
   public int first(int v) { // Get v's first neighbor
     for (int i=0; i<Mark.length; i++)
@@ -68,24 +38,6 @@ class Graphm implements Graph { // Graph: Adjacency matrix
         return i;
     return Mark.length;  // No next edge;
   }
-  
-  @Override
-  public int last(int v) {
-  	for (int i=Mark.length-1; i>=0; i--)
-  	      if (matrix[v][i] != 0) return i;
-  	    return -1;  // No edge for this vertex
-  }
-  @Override
-  public int rnext(int v, int w) {
-	  for (int i=w-1; i>=0; i--)
-	      if (matrix[v][i] != 0)
-	        return i;
-	    return -1;  // No next edge;
-  }
-  
-  
-  
-  
 
   public boolean isEdge(int i, int j) // Is (i, j) an edge?
     { return matrix[i][j] != 0; }
@@ -113,9 +65,4 @@ class Graphm implements Graph { // Graph: Adjacency matrix
  // Get and set marks
   public void setMark(int v, int val) { Mark[v] = val; }
   public int getMark(int v) { return Mark[v]; }
-  
-  public int incrCount(int w) {return ++Count[w];}
-  
-  public int getCount(int w) {return Count[w];}
-
 }
