@@ -1,4 +1,4 @@
-package coen352.ch11.graph.am;
+package coen352.a3;
 
 /** Source code example for "A Practical Introduction to Data
     Structures and Algorithm Analysis, 3rd Edition (Java)" 
@@ -18,11 +18,4 @@ interface Graph {                // Graph class ADT
   public int weight(int i, int j);     // Return edge weight
   public void setMark(int v, int val); // Set Mark for v
   public int getMark(int v);           // Get Mark for v
-  
-  public int last(int v); 
-  public int rnext(int v, int w);
-  
-  public Integer[] getFanIn(int v); //Get FanIn nodes for v
-  
 }
-
