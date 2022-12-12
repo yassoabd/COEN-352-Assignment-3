@@ -364,8 +364,8 @@ public String getCourses(int ind) {
 			this.setMark(i, UNVISITED);
 		}
     
-		Stack <String> stack = new Stack <String> (100);
-		Stack <String> stackPath = new Stack <String> (100);
+		ADTStack <String> stack = new AStack <String> (100);
+		ADTStack <String> stackPath = new AStack <String> (100);
     
 		String returnPath = "";
 		int prereqCounter = 0;
