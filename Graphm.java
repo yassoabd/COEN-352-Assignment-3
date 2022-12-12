@@ -11,6 +11,9 @@ class Graphm implements Graph { // Graph: Adjacency matrix
   private int numEdge;                   // Number of edges
   public int[] Mark;                     // The mark array
 
+static final int UNVISITED = 0;
+static final int VISITED = 1;
+    
   public Graphm() {}
   public Graphm(int n) {                 // Constructor
     Init(n);
