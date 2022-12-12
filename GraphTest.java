@@ -209,8 +209,7 @@ public class GraphTest
 		    createGraph(f, G);
 
 			assertEquals(true,G.isPrerequisite("COEN212","COEN313"), "The course is a prerequisite");
-			assertEquals(true,G.isPrerequisite("COEN317","COEN490"), "The course is a prerequisite");
-			assertEquals(false,G.isPrerequisite("COEN346","COEN424"), "The course is a prerequisite");
+			assertEquals(false,G.isPrerequisite("COEN346","COEN422"), "The course is not a prerequisite");
         }
 
 }
