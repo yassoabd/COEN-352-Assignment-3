@@ -154,7 +154,7 @@ public class CoenCoursesGraph extends Graphm {
 				break;
 
 			default:
-				index=-1 //invalid course
+				index = -1; //invalid course
 		}
 		return index;
 	}
@@ -317,24 +317,27 @@ public String getCourses(int ind) {
 	public String [] getPrerequisite(String courseCode) {
   
 		// clear visited array
-		for(int i = 0; i < this.n(); i++)
-		{
+		for(int i = 0; i < this.n(); i++) {
 			this.setMark(i, UNVISITED);
 		}
+	
     
-    String[] prerequisite = new String [this.n()];
+        String[] prerequisite = new String [this.n()];
 		int prereqCounter = 0;
 		int ci = getIndex(courseCode);
 		
-    int courseindex
-		for(int i = 0; i < this.n(); i++)
-		{
+		if (ci==-1){ //unavailable course
+			return null;
+		}
+
+        int courseindex;
+		for(int i = 0; i < this.n(); i++){
 			if (this.isEdge(i, ci)) {
 				prerequisite[courseindex] = getCourse(i);
 					courseindex++;
 			}
-      
-  	 for(int i = 0; i < prerequisite.length; i++) {
+		}
+  	  for(int i = 0; i < prerequisite.length; i++) {
 		  
 		  if (prerequisite[i] != null) {
 			  prereqCounter++; //increment
@@ -342,57 +345,84 @@ public String getCourses(int ind) {
 		  
 	  }
 	  
-	  String[] temp = new String[prereqCounter];
+	  String[] returnPath = new String[prereqCounter];
 	  
 	  for(int i = 0; i < prereqCounter; i++) {
 		  
-		  temp[i] = prerequisite[i];
+		 returnPath[i] = prerequisite[i];
 	  }
     
-	  return temp; 
+	  return returnPath; 
     
-		}
+    }
 
 //problem 2 (1) return a sequence of prerequisites
 	public String getPrerequisitePath(String courseCode) { 
   
 		// set to UNVISITED
-    for(int i = 0; i < this.n(); i++)
-		{
+       for(int i = 0; i < this.n(); i++) {
 			this.setMark(i, UNVISITED);
 		}
     
-		Stack <String> stack = new AStack <String> (100);
-		Stack <String> stackToOutput = new AStack <String> (100);
+		Stack <String> stack = new Stack <String> (100);
+		Stack <String> stackPath = new Stack <String> (100);
     
-		String toReturn = "";
+		String returnPath = "";
+		int prereqCounter = 0;
     
 		// we need two stacks to search all paths and for output
 		stack.push(courseCode);
-		stackToOutput.push(courseCode);
+		stackPath.push(courseCode);
 		
-		while(stack.length() > 0)
-		{
+		while(stack.length() > 0) { //stack is not empty
 			String v = stack.pop();
 			
-			String [] prereqs = this.getPrerequisite(v); 
+			String [] prerequisite = this.getPrerequisite(v); 
 
-			if (prereqs != null) {
+	     if (prerequisite!= null) {
       
-				// push all prerequisites to stack
-				for(int i = 0; i < prereqs.length; i++)
-				{
-					stackToOutput.push(prereqs[i]);
-					stack.push(prereqs[i]);
+				for(int i = 0; prerequisite.length; i++) {
+					stackPath.push(prerequisite[i]);
+					stack.push (prerequisite[i]);
+					this.setMark(getIndex(prereqisite[i]), VISITED);
+				}
+			}
+		} 
+	
+		// print all elements in stack
+        while(stackPath.length() > 0) { //path is not empty
+			for (int i = 0; stackPath.size(); i++){
+				if (!returnPath.contains(stackPath.pop)){
+				returnPath += stackPath.pop();
+				returnPath += " ";
 				}
 			}
 		}
-    
-		// print all elements in stack
-		while(stackToOutput.length() > 0)
+		
+		return returnPath;
+    }
+
+	//problem 2 (2) return boolean if src crs is a prereqfor dest crs
+	public boolean isPrerequisite(String sourceCourse, String destinationCourse)
+	{
+		int srcCourse = getIndex(sourceCourse); 
+		int destCourse = getIndex(destinationCourse);
+		
+		//invalid course input : return false 
+		if (destCourse == -1)
 		{
-			toReturn += stackToOutput.pop();
-			toReturn += " ";
+			System.out.println("Course not found");
+			return false; 
 		}
-		return toReturn;
+
+		//invalid prerequisite input, return false
+		if (srcCourse == -1)
+		{
+			System.out.println("Course not found");
+			return false; 
+		}	
+		
+	   return this.isEdge(srcCourse,destCourse); 
+		
 	}
+}
